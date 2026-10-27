@@ -1,0 +1,73 @@
+@import "@fontsource-variable/big-shoulders-display";
+@import "@fontsource-variable/instrument-sans";
+@import "tailwindcss";
+
+@theme {
+  --color-porcelain: #f2f4f3;
+  --color-porcelain-deep: #e6eae8;
+  --color-barbicide: #0f5e63;
+  --color-barbicide-strong: #0a464a;
+  --color-barbicide-tint: #d5e8e5;
+  --color-leather: #7a2230;
+  --color-leather-tint: #f4e3e5;
+  --color-graphite: #26302f;
+  --color-steel: #5e6b69;
+  --color-steel-light: #a9b3b1;
+  --color-line: #d3d9d7;
+  --color-success: #1f6b45;
+  --color-success-tint: #e1f0e7;
+  --color-danger: #a3262f;
+
+  --font-display: "Big Shoulders Display Variable", "Arial Narrow", sans-serif;
+  --font-sans: "Instrument Sans Variable", system-ui, sans-serif;
+
+  --text-sign: clamp(4.25rem, 11vw, 8.5rem);
+  --text-sign--line-height: 0.86;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-porcelain text-graphite font-sans antialiased leading-relaxed;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-extrabold leading-[0.95];
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-barbicide ring-offset-2 ring-offset-porcelain;
+  }
+}
+
+@utility pole-stripes {
+  background-image: repeating-linear-gradient(
+    -40deg,
+    var(--color-leather) 0 9px,
+    #fff 9px 15px,
+    var(--color-barbicide) 15px 24px,
+    #fff 24px 30px
+  );
+}
+
+@utility leader-dots {
+  background-image: radial-gradient(circle, var(--color-steel-light) 1px, transparent 1.5px);
+  background-size: 7px 4px;
+  background-repeat: repeat-x;
+  background-position: left bottom 0.4em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
