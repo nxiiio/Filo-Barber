@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  BOOKING_POLICY,
   assertCanBook,
   minutesUntil,
   type BookingRequest
@@ -15,6 +16,7 @@ function request(overrides: Partial<BookingRequest> = {}): BookingRequest {
     range: { start: 900, end: 960 },
     now: NOW,
     barberAgenda: [],
+    activeBookingsForCustomer: 0,
     ...overrides
   };
 }
@@ -54,6 +56,11 @@ describe("Política de reservas", () => {
   it("impide el doble agendamiento de un barbero", () => {
     const barberAgenda = [{ start: 930, end: 990 }];
     expect(codeOf(() => assertCanBook(request({ barberAgenda })))).toBe("SLOT_UNAVAILABLE");
+  });
+
+  it("limita las reservas activas por cliente", () => {
+    const activeBookingsForCustomer = BOOKING_POLICY.maxActiveBookingsPerCustomer;
+    expect(codeOf(() => assertCanBook(request({ activeBookingsForCustomer })))).toBe("BOOKING_LIMIT_REACHED");
   });
 
   it("calcula los minutos hasta la reserva cruzando días", () => {

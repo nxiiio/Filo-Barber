@@ -117,10 +117,10 @@ describe("BookingService", () => {
       expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(1);
     });
 
-    it("permite que un cliente tenga varias reservas futuras", async () => {
+    it("limita a dos reservas futuras por cliente", async () => {
       await book(ctx, { startTime: "11:00" });
       await book(ctx, { startTime: "12:00", date: TUESDAY });
-      await expect(book(ctx, { startTime: "16:00" })).resolves.toMatchObject({ status: "confirmed" });
+      await expectBusinessError(book(ctx, { startTime: "16:00" }), "BOOKING_LIMIT_REACHED");
     });
 
     it("rechaza servicios o barberos inexistentes o inactivos", async () => {

@@ -75,7 +75,8 @@ export class BookingService {
         date: command.date,
         range,
         now,
-        barberAgenda: await this.barberAgenda(command.barberId, command.date)
+        barberAgenda: await this.barberAgenda(command.barberId, command.date),
+        activeBookingsForCustomer: await this.appointmentRepository.countUpcomingByRut(rut, now)
       });
 
       const timestamp = this.clock.timestamp();

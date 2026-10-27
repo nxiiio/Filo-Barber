@@ -99,6 +99,7 @@ Las reservas se crean dentro de una sección crítica (`Mutex`). Así, si varios
 | Bloques | Cada 30 minutos; el servicio ocupa su duración completa |
 | Ventana de reserva | Desde la hora actual hasta 30 días hacia adelante |
 | Cancelación | En cualquier momento, con código y RUT |
+| Reservas activas por cliente (RUT) | Máximo 2 |
 | Doble agendamiento | Bloqueado por barbero, considerando duración |
 | Datos personales | Requiere consentimiento explícito, se registra la fecha |
 

@@ -1,4 +1,4 @@
-import { type DataSource, type Repository } from "typeorm";
+import { MoreThan, MoreThanOrEqual, type DataSource, type Repository } from "typeorm";
 import { Appointment, AppointmentStatus } from "../models/appointment.model.js";
 import type { LocalDateTime } from "../shared/clock.js";
 import { toTime } from "../utils/schedule.js";
@@ -16,6 +16,16 @@ export class AppointmentRepository {
     return this.repository.find({
       where: { barberId, date, status: AppointmentStatus.CONFIRMED },
       order: { startTime: "ASC" }
+    });
+  }
+
+  countUpcomingByRut(rut: string, from: LocalDateTime): Promise<number> {
+    const confirmedForCustomer = { customer: { rut }, status: AppointmentStatus.CONFIRMED };
+    return this.repository.count({
+      where: [
+        { ...confirmedForCustomer, date: MoreThan(from.date) },
+        { ...confirmedForCustomer, date: from.date, startTime: MoreThanOrEqual(toTime(from.minutes)) }
+      ]
     });
   }
 
